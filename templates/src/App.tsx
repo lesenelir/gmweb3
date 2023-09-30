@@ -1,10 +1,9 @@
-import './App.css'
 
 function App() {
 
   return (
     <>
-      <p>Gm web3</p>
+      <p className={'bg-blue-200'}>Gm web3</p>
     </>
   )
 }
