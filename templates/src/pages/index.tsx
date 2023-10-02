@@ -1,12 +1,16 @@
 import Layout from '@/pages/layout.tsx'
+import { ThemeProvider } from '@/components/utils/ThemeProvider.tsx'
 
 function App() {
   return (
-    <>
+    <ThemeProvider defaultTheme={'light'} storageKey={'theme'}>
       <Layout>
-        home page
+        {/* Home body */}
+        <div className={'p-4'}>
+          home page2
+        </div>
       </Layout>
-    </>
+    </ThemeProvider>
   )
 }
 
