@@ -6,7 +6,7 @@ function App() {
     <ThemeProvider defaultTheme={'light'} storageKey={'theme'}>
       <Layout>
         {/* Home body */}
-        <div className={'p-4'}>
+        <div className={'p-4 h-96'}>
           home page2
         </div>
       </Layout>

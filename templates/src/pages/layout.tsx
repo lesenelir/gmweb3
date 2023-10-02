@@ -4,6 +4,8 @@ import { cn } from '@/lib/utils.ts'
 import { navigationMenuTriggerStyle } from '@/components/ui/navigation-menu.tsx'
 
 import LZIcon from '@/components/icons/LZIcon.tsx'
+import GithubIcon from '@/components/icons/GithubIcon.tsx'
+import TwitterIcon from '@/components/icons/TwitterIcon.tsx'
 import AlignJustifyIcon from '@/components/icons/AlignJustifyIcon.tsx'
 import Navigation from '@/components/layout/Navigation.tsx'
 import ModeToggle from '@/components/layout/ModeToggle.tsx'
@@ -37,7 +39,6 @@ function Layout(props: IProps) {
       </header>
       <HorizontalLine/>
 
-
       {/* Mobile Head */}
       <header className={'sm:hidden max-sm:flex items-center justify-between h-20 p-6 bg-amber-100'}>
         <div className={'flex flex-row items-center'}>
@@ -49,6 +50,18 @@ function Layout(props: IProps) {
 
       {/* Content */}
       {children}
+
+      {/* Footer */}
+      <HorizontalLine/>
+      <footer className={'flex flex-col items-center p-4'}>
+        <h3 className={'p-1'}>GMWeb3 - DApp Template</h3>
+        <p className={'text-sm p-1'}> Built by Lesenelir</p>
+        {/* footer icon */}
+        <div className={'flex flex-row gap-4 p-2'}>
+          <GithubIcon width={16} height={16}/>
+          <TwitterIcon width={16} height={16}/>
+        </div>
+      </footer>
     </>
   )
 }

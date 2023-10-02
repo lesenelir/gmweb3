@@ -1,8 +1,8 @@
 import { useTheme } from '@/components/utils/ThemeProvider.tsx'
 
 interface IProps {
-  width?: number
-  height?: number
+  width: number
+  height: number
   className?: string
 }
 
