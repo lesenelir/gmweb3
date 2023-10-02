@@ -4,7 +4,8 @@ template for web3 dapp.
 
 ## Libraries
 
-- tailwindcss
+- styles
+  - [tailwindcss](https://tailwindcss.com/)
 
 - icon: 
   - [icons](https://icones.js.org/)
