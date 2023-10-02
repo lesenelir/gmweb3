@@ -21,5 +21,4 @@ function AlignJustifyIcon() {
   )
 }
 
-
 export default AlignJustifyIcon
