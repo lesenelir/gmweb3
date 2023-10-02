@@ -3,7 +3,7 @@ import React from 'react'
 import { cn } from '@/lib/utils.ts'
 import { navigationMenuTriggerStyle } from '@/components/ui/navigation-menu.tsx'
 
-import LZIcon from '@/assets/lz.svg'
+import LZIcon from '@/components/icons/LZIcon.tsx'
 import AlignJustifyIcon from '@/components/icons/AlignJustifyIcon.tsx'
 import Navigation from '@/components/layout/Navigation.tsx'
 import ModeToggle from '@/components/layout/ModeToggle.tsx'
@@ -21,7 +21,7 @@ function Layout(props: IProps) {
       {/* PC Head */}
       <header className={'h-24 p-6 max-sm:hidden sm:flex flex-row gap-8'}>
         <div className={'flex flex-row items-center'}>
-          <img src={LZIcon} alt="" width={40} height={40}/>
+          <LZIcon width={40} height={40}/>
           <h1 className={'font-roboto font-medium'}>GM Web3</h1>
         </div>
 
@@ -41,7 +41,7 @@ function Layout(props: IProps) {
       {/* Mobile Head */}
       <header className={'sm:hidden max-sm:flex items-center justify-between h-20 p-6 bg-amber-100'}>
         <div className={'flex flex-row items-center'}>
-          <img src={LZIcon} alt="" width={40} height={40}/>
+          <LZIcon width={40} height={40}/>
           <h1 className={'font-inter font-medium'}>GM Web3</h1>
         </div>
         <AlignJustifyIcon/>
