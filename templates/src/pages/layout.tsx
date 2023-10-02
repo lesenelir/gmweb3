@@ -40,7 +40,7 @@ function Layout(props: IProps) {
       <HorizontalLine/>
 
       {/* Mobile Head */}
-      <header className={'sm:hidden max-sm:flex items-center justify-between h-20 p-6 bg-amber-100'}>
+      <header className={'sm:hidden max-sm:flex items-center justify-between h-24 p-6 bg-amber-100'}>
         <div className={'flex flex-row items-center'}>
           <LZIcon width={40} height={40}/>
           <h1 className={'font-inter font-medium'}>GM Web3</h1>
@@ -53,7 +53,7 @@ function Layout(props: IProps) {
 
       {/* Footer */}
       <HorizontalLine/>
-      <footer className={'flex flex-col items-center p-4'}>
+      <footer className={'h-34 p-4 flex flex-col items-center'}>
         <h3 className={'p-1'}>GMWeb3 - DApp Template</h3>
         <p className={'text-sm p-1'}> Built by Lesenelir</p>
         {/* footer icon */}

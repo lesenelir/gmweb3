@@ -75,5 +75,14 @@ module.exports = {
       },
     },
   },
-  plugins: [require("tailwindcss-animate")],
+  plugins: [
+    require("tailwindcss-animate"),
+    function ({ addUtilities }) {
+      addUtilities({
+        '.min-h-body': {
+          minHeight: 'calc(100vh - 6rem - 8.5rem)',
+        },
+      }, ['responsive', 'hover'])
+    },
+  ],
 }
