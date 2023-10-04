@@ -1,6 +1,7 @@
 import React from 'react'
 
 import { cn } from '@/lib/utils.ts'
+import { ConnectButton } from '@rainbow-me/rainbowkit'
 import { navigationMenuTriggerStyle } from '@/components/ui/navigation-menu.tsx'
 
 import LZIcon from '@/components/icons/LZIcon.tsx'
@@ -32,8 +33,11 @@ function Layout(props: IProps) {
           <p className={cn(navigationMenuTriggerStyle(), 'group', 'text-base font-normal cursor-pointer')}>Documentation</p>
         </div>
 
-        <div className={'flex flex-row items-center gap-4 ml-auto'}>
-          <p className={cn(navigationMenuTriggerStyle(), 'group', 'text-base font-normal cursor-pointer')}>Connect Wallet</p>
+        <div className={'flex flex-row items-center gap-8 ml-auto'}>
+          {/*<p className={cn(navigationMenuTriggerStyle(), 'group', 'text-base font-normal cursor-pointer')}>*/}
+            {/*Connect Wallet*/}
+          {/*</p>*/}
+          <ConnectButton />
           <ModeToggle/>
         </div>
       </header>
