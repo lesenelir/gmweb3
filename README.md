@@ -10,3 +10,5 @@ It's under development, but it might be abandoned ...
 - template
 
 - typescript tsconfig.json tsc to compile
+
+- rollup to bundle (ts plugin)
