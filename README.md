@@ -4,3 +4,9 @@
 
 It's under development, but it might be abandoned ...
 
+
+## Dev Steps
+
+- template
+
+- typescript tsconfig.json tsc to compile

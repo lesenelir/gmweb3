@@ -1,2 +1,5 @@
 #!/usr/bin/env node
-require('../src/cli').cli(process.argv)
+
+// npx @lesenelir/gmweb3
+import { cli } from '../dist/cli.js'
+cli(process.argv)
