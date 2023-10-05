@@ -12,3 +12,10 @@ It's under development, but it might be abandoned ...
 - typescript tsconfig.json tsc to compile
 
 - rollup to bundle (ts plugin)
+
+- yargs to parse command line arguments <app-name>
+
+- fs-extra to copy files
+
+
+

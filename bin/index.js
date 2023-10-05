@@ -2,4 +2,4 @@
 
 // npx @lesenelir/gmweb3
 import { cli } from '../dist/cli.js'
-cli(process.argv)
+cli(process.argv).then(() => {})
