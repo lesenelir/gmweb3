@@ -1,6 +1,9 @@
 {
   "name": "@lesenelir/gmweb3",
   "version": "0.0.1",
+  "publishConfig": {
+    "access": "public"
+  },
   "type": "module",
   "description": "A cli tool for generating DApp front-end templates",
   "main": "dist/cli.js",
