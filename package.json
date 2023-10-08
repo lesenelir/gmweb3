@@ -20,7 +20,11 @@
     "build": "rollup -c",
     "dev": "rollup -c -w"
   },
-  "keywords": [],
+  "keywords": [
+    "gmweb3",
+    "web3",
+    "dapp"
+  ],
   "author": "lesenelir <hi@lesenelir.me>",
   "license": "ISC",
   "devDependencies": {
