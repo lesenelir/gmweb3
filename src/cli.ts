@@ -12,13 +12,13 @@ export async function cli(args: string[]) {
   const appName = argv._[0] as string
 
   if (!appName) {
-    console.error('please provide an app name')
+    console.error('please provide an app name, e.g. `npx @lesenelir/gmweb3 my-app`')
     process.exit(1)
   }
 
   // 2. create project directory
-  const templateDir = path.join(__dirname, '../templates')
-  const targetDir = path.join(process.cwd(), appName)
+  const templateDir = path.join(__dirname, '../templates') // templates directory
+  const targetDir = path.join(process.cwd(), appName)      // target directory
 
   if (fs.existsSync(targetDir)) {
     console.error(`directory ${appName} already exists`)

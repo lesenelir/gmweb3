@@ -1,3 +1,5 @@
+import resolve from '@rollup/plugin-node-resolve'
+import commonjs from '@rollup/plugin-commonjs'
 import typescript from '@rollup/plugin-typescript'
 
 export default {
@@ -7,5 +9,7 @@ export default {
     format: "es",
     sourcemap: true
   },
-  plugins: [typescript({exclude: ['templates/**']})]
+  context: 'global',
+  moduleContext: 'global',
+  plugins: [resolve(), commonjs(), typescript({exclude: ['templates/**']})]
 }
