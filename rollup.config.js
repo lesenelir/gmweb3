@@ -1,5 +1,4 @@
-import resolve from '@rollup/plugin-node-resolve'
-import commonjs from '@rollup/plugin-commonjs'
+import autoExternal from "rollup-plugin-auto-external"
 import typescript from '@rollup/plugin-typescript'
 
 export default {
@@ -9,7 +8,6 @@ export default {
     format: "es",
     sourcemap: true
   },
-  context: 'global',
-  moduleContext: 'global',
-  plugins: [resolve(), commonjs(), typescript({exclude: ['templates/**']})]
+  external: ['yargs/helpers'], // specify yargs/helpers as external dependency
+  plugins: [autoExternal(), typescript({exclude: ['templates/**']})]
 }
