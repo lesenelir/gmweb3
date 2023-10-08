@@ -1,6 +1,6 @@
 {
   "name": "@lesenelir/gmweb3",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "publishConfig": {
     "access": "public"
   },
@@ -25,8 +25,12 @@
     "web3",
     "dapp"
   ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/lesenelir/gmweb3"
+  },
   "author": "lesenelir <hi@lesenelir.me>",
-  "license": "ISC",
+  "license": "MIT",
   "devDependencies": {
     "@rollup/plugin-typescript": "^11.1.4",
     "@types/fs-extra": "^11.0.2",
