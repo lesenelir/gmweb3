@@ -17,5 +17,5 @@ It's under development, but it might be abandoned ...
 
 - fs-extra to copy files
 
-
+- inquirer to ask questions
 
