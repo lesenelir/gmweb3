@@ -1,5 +1,5 @@
-import { fileURLToPath } from 'url'
 import path from 'path'
+import { fileURLToPath } from 'url'
 
 // __filename and __dirname equivalent in ESM
 export const __filename = fileURLToPath(import.meta.url)
