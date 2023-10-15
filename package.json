@@ -6,7 +6,8 @@
   },
   "type": "module",
   "description": "A cli tool for generating DApp front-end templates",
-  "main": "dist/cli.js",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
   "bin": {
     "@lesenelir/gmweb3": "bin/index.js"
   },
