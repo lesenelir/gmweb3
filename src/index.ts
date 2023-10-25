@@ -24,7 +24,9 @@ export async function cli(args: string[]) {
   // const rootDir = await packageDirectory() as string
   // const templateDir = path.join(rootDir, '/templates') // templates directory
   const templateDir = fileURLToPath(new URL("../templates", import.meta.url))
+  console.log('templateDir', templateDir)
   const targetDir = path.join(process.cwd(), appName)      // target directory
+  console.log('targetDir', targetDir)
 
   if (fs.existsSync(targetDir)) {
     console.error(`directory ${appName} already exists`)
