@@ -9,6 +9,7 @@ import { askQuestions } from './inquiry-terminal'
 import { questions } from './prompts/data'
 import { copyTemplateFiles } from './file-system'
 import { setupProject } from './setup-project'
+import { fileURLToPath } from 'url'
 
 export async function cli(args: string[]) {
   // 1. parse input <app-name> argument
@@ -20,8 +21,9 @@ export async function cli(args: string[]) {
   }
 
   // 2. create project directory
-  const rootDir = await packageDirectory() as string
-  const templateDir = path.join(rootDir, '/templates') // templates directory
+  // const rootDir = await packageDirectory() as string
+  // const templateDir = path.join(rootDir, '/templates') // templates directory
+  const templateDir = fileURLToPath(new URL("../templates", import.meta.url))
   const targetDir = path.join(process.cwd(), appName)      // target directory
 
   if (fs.existsSync(targetDir)) {
