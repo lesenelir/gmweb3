@@ -27,6 +27,8 @@ The author is researching the relevant technology stack and will update it in su
 
 ## Create
 
+Have some bugs, and it cant work ... 😅
+
 ```bash
 npx @lesenelir/gmweb3 <app-name>
 ```
