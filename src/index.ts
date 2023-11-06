@@ -73,7 +73,12 @@ export async function init() {
           validate: (dir: string) =>
             isValidPackageName(dir) || "Invalid package.json name"
         }
-      ]
+      ],
+      {
+        onCancel: () => {
+          throw new Error(red("✖") + " Operation cancelled by the user")
+        }
+      }
     )
 
     const { packageName, shouldOverwrite } = result
@@ -117,30 +122,10 @@ export async function init() {
       )
     )
 
-    const manager = process.env.npm_config_user_agent ?? ""
-    const packageManager = /pnpm/.test(manager)
-      ? "pnpm"
-      : /yarn/.test(manager)
-        ? "yarn"
-        : "npm"
-
-    const commandsMap = {
-      install: {
-        pnpm: "pnpm install",
-        yarn: "yarn",
-        npm: "npm install"
-      },
-      dev: {
-        pnpm: "pnpm dev",
-        yarn: "yarn dev",
-        npm: "npm run dev"
-      }
-    }
-
     console.log(`\nDone. Now run:\n`)
     console.log(`${bold(green(`cd ${targetDir}`))}`)
-    console.log(`${bold(green(commandsMap.install[packageManager]))}`)
-    console.log(`${bold(green(commandsMap.dev[packageManager]))}`)
+    console.log(`${bold(green(`pnpm install`))}`)
+    console.log(`${bold(green(`pnpm dev`))}`)
     console.log()
   } catch (e) {
     if (e instanceof Error) {

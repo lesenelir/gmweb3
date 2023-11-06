@@ -17,7 +17,9 @@ The main purpose of this project is to build a web command line interface tool b
 
 - Fs-extra: Copy the template to the current directory as needed.
 
-- Inquirer: Interact with the user.
+- Inquirer / prompts: Interact with the user.
+
+- kolorist：terminal color. 
 
 
 ## Notes
@@ -27,10 +29,10 @@ The author is researching the relevant technology stack and will update it in su
 
 ## Create
 
-Have some bugs, and it cant work ... 😅
+Have some bugs ... 😅
 
 ```bash
-npx @lesenelir/gmweb3 <app-name>
+npx @lesenelir/gmweb3
 ```
 
 ## License
