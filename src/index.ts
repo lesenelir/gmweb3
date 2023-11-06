@@ -1,102 +1,151 @@
-import path from 'path'
+import fs from 'node:fs'
 import fse from 'fs-extra'
-import inquirer from 'inquirer'
-import { access } from 'fs/promises'
-import { execSync } from 'child_process'
+import path from 'node:path'
 import { fileURLToPath } from 'node:url'
+import { red, green, bold } from 'kolorist'
+import { default as prompts } from 'prompts'
+import * as process from 'process'
 
-type TQuestion = {
-  type: string
-  name: string
-  message: string
-  default: boolean
+function isValidPackageName(projectName: string) {
+  return /^(?:@[a-z0-9-*~][a-z0-9-*._~]*\/)?[a-z0-9-~][a-z0-9-._~]*$/.test(
+    projectName
+  )
 }
 
-type TAnswer = {
-  installDependencies: boolean
-  initializeGit: boolean
+function toValidPackageName(projectName: string) {
+  return projectName
+    .trim()
+    .toLowerCase()
+    .replace(/\s+/g, "-")
+    .replace(/^[._]/, "")
+    .replace(/[^a-z0-9-~]+/g, "-")
 }
 
-const questions: TQuestion[] = [
-  {
-    type: 'confirm',
-    name: 'installDependencies',
-    message: 'Do you want to install dependencies?',
-    default: true
-  },
-  {
-    type: 'confirm',
-    name: 'initializeGit',
-    message: 'Do you want to initialize a git repository?',
-    default: true
-  }
-]
-
-async function checkDirectoryAndExit(targetDir: string): Promise<boolean> {
-  try {
-    await access(targetDir)
-    // targetDir exists return false to exit
-    return false
-  } catch (error) {
-    // targetDir does not exist return true to continue
-    return true
-  }
+// if the dir is empty or not exist
+function canSafelyOverwrite(dir: string) {
+  return !fs.existsSync(dir) || fs.readdirSync(dir).length === 0
 }
 
-// main entry point for the CLI
-export async function init(args: string[]) {
-  // 1. parse input <app-name> argument
-  const appName = args[2]
-  // const argv = await yargs(hideBin(args)).argv
-  // const appName = argv._[0] as string
+export async function init() {
+  let targetDir = ''
 
-  if (!appName) {
-    console.error('please provide an app name, e.g. `npx @lesenelir/gmweb3 my-app`')
-    process.exit(1)
-  }
+  const defaultProjectName = 'gmweb3'
 
-  // 2. create project directory
-  const templateDir = fileURLToPath(new URL('../templates', import.meta.url)) // templates directory
-  const targetDir = path.join(process.cwd(), appName)      // target directory
-  const flag = await checkDirectoryAndExit(targetDir)
+  const templateRoot = fileURLToPath(new URL('../templates', import.meta.url))
 
-  if (!flag) {
-    console.error(`directory ${appName} already exists`)
-    process.exit(1)
+  // const CHOICES = fs.readdirSync(templateRoot) // read file to array
+
+  let result: {
+    packageName: string
+    shouldOverwrite: string
   }
 
   try {
-    const answers: TAnswer = await inquirer.prompt(questions) // get answers from command line
+    result = await prompts(
+      [
+        {
+          name: 'projectName',
+          type: 'text',
+          message: 'Project Name',
+          initial: defaultProjectName,
+          onState: (state: any) =>
+            (targetDir = String(state.value).trim() || defaultProjectName)
+        },
+        {
+          name: "shouldOverwrite",
+          type: () => (canSafelyOverwrite(targetDir) ? null : "confirm"),
+          message: `${targetDir} is not empty. Remove existing files and continue?`
+        },
+        {
+          name: "overwriteChecker",
+          type: (values: any) => {
+            if (values === false) {
+              throw new Error(red("✖") + " Operation cancelled")
+            }
+            return null
+          }
+        },
+        {
+          name: "packageName",
+          type: () => (isValidPackageName(targetDir) ? null : "text"),
+          message: "Package name",
+          initial: () => toValidPackageName(targetDir),
+          validate: (dir: string) =>
+            isValidPackageName(dir) || "Invalid package.json name"
+        }
+      ]
+    )
 
-    // 3. copy template files
-    await fse.copy(templateDir, targetDir, {
-      filter: (src) => (
-         !src.includes('.DS_Store') &&
-         !src.includes('dist') &&
-         !src.includes('node_modules') &&
-         !src.includes('pnpm-lock.yaml') &&
-         !src.includes('.git') &&
-         !src.includes('.gitignore')
+    const { packageName, shouldOverwrite } = result
+    const root = path.resolve(targetDir)
+
+    if (shouldOverwrite) {
+      fse.emptyDirSync(root) // empty dir
+    } else if (!fs.existsSync(root)) {
+      fs.mkdirSync(root, { recursive: true }) // create dir
+    }
+
+    const pkg = {
+      name: packageName ?? toValidPackageName(targetDir),
+      version: '0.0.0',
+    }
+
+    console.log('setting up project...')
+
+    const templateDir = path.join(templateRoot)
+
+    // Read existing package.json from the root directory
+    const packageJsonPath = path.join(root, "package.json")
+
+    // Read new package.json from the template directory
+    const newPackageJsonPath = path.join(templateDir, "package.json")
+    const newPackageJson = JSON.parse(
+      fs.readFileSync(newPackageJsonPath, "utf-8")
+    )
+
+    fse.copySync(templateDir, root)
+
+    fs.writeFileSync(
+      packageJsonPath,
+      JSON.stringify(
+        {
+          ...newPackageJson,
+          ...pkg
+        },
+        null,
+        2
       )
-    })
+    )
 
-    // change current working directory to target directory
-    process.chdir(targetDir)
+    const manager = process.env.npm_config_user_agent ?? ""
+    const packageManager = /pnpm/.test(manager)
+      ? "pnpm"
+      : /yarn/.test(manager)
+        ? "yarn"
+        : "npm"
 
-    // 4. perform other tasks, such as installing dependencies, initializing git repo, etc.
-    if (answers.installDependencies) {
-      console.log('Installing dependencies...')
-      execSync('pnpm install', { stdio: 'inherit' })
+    const commandsMap = {
+      install: {
+        pnpm: "pnpm install",
+        yarn: "yarn",
+        npm: "npm install"
+      },
+      dev: {
+        pnpm: "pnpm dev",
+        yarn: "yarn dev",
+        npm: "npm run dev"
+      }
     }
 
-    if (answers.initializeGit) {
-      console.log('Initializing git repository...')
-      execSync('git init', { stdio: 'inherit' })
-    }
-
-    console.log('Project setup completed!')
+    console.log(`\nDone. Now run:\n`)
+    console.log(`${bold(green(`cd ${targetDir}`))}`)
+    console.log(`${bold(green(commandsMap.install[packageManager]))}`)
+    console.log(`${bold(green(commandsMap.dev[packageManager]))}`)
+    console.log()
   } catch (e) {
-    console.error('error copying template files', e)
+    if (e instanceof Error) {
+      console.log(e.message)
+    }
     process.exit(1)
   }
 }
